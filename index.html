@@ -50,21 +50,38 @@
       gap: 1rem;
     }
 
-    .card {
+    .card-item {
       background: #fff;
       border-radius: 16px;
-      padding: 1.5rem 1.75rem;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card-item:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .card-item.open {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 1.5rem 1.75rem;
       display: flex;
       align-items: center;
       gap: 1.25rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: default;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.15s ease;
     }
 
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+      background: #fafafa;
     }
 
     .card-icon {
@@ -78,9 +95,14 @@
       font-size: 1.4rem;
     }
 
-    .card:nth-child(1) .card-icon { background: #ffe0e6; }
-    .card:nth-child(2) .card-icon { background: #e0f0ff; }
-    .card:nth-child(3) .card-icon { background: #e8f5e9; }
+    .card-item:nth-child(1) .card-icon { background: #ffe0e6; }
+    .card-item:nth-child(2) .card-icon { background: #e0f0ff; }
+    .card-item:nth-child(3) .card-icon { background: #e8f5e9; }
+
+    .card-content {
+      flex: 1;
+      min-width: 0;
+    }
 
     .card-content h2 {
       font-size: 1.05rem;
@@ -95,11 +117,122 @@
       color: #6b7280;
     }
 
+    .chevron {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: #9ca3af;
+      transition: transform 0.25s ease;
+    }
+
+    .card-item.open .chevron {
+      transform: rotate(180deg);
+      color: #667eea;
+    }
+
+    .card-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .card-item.open .card-body {
+      max-height: 800px;
+    }
+
+    .card-body-inner {
+      padding: 0 1.75rem 1.5rem 5.5rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .card-body-inner ul,
+    .card-body-inner ol {
+      padding-left: 1.25rem;
+    }
+
+    .card-body-inner li {
+      margin-bottom: 0.85rem;
+      font-size: 0.925rem;
+      line-height: 1.55;
+      color: #374151;
+    }
+
+    .card-body-inner li:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-body-inner li strong {
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+
+    .card-body-inner .hint {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .week-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    .week-table th,
+    .week-table td {
+      padding: 0.6rem 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .week-table th {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .week-table td:first-child {
+      font-weight: 600;
+      color: #1a1a2e;
+      white-space: nowrap;
+    }
+
+    .week-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .tag.post { background: #ffe0e6; color: #be185d; }
+    .tag.story { background: #e0f0ff; color: #1d4ed8; }
+    .tag.reels { background: #fef3c7; color: #b45309; }
+
     footer {
       text-align: center;
       margin-top: 2.5rem;
       color: rgba(255, 255, 255, 0.6);
       font-size: 0.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .card-body-inner {
+        padding: 0 1.25rem 1.25rem 1.25rem;
+      }
+
+      .week-table td:first-child {
+        white-space: normal;
+      }
     }
   </style>
 </head>
@@ -111,32 +244,161 @@
     </header>
 
     <ul class="card-list">
-      <li class="card">
-        <div class="card-icon">✍️</div>
-        <div class="card-content">
-          <h2>Пять идей для вас увлекающих постов</h2>
-          <p>Темы, которые зацепят вашу аудиторию</p>
+      <li class="card-item">
+        <button class="card" type="button" aria-expanded="false">
+          <div class="card-icon">✍️</div>
+          <div class="card-content">
+            <h2>Пять идей для вас увлекающих постов</h2>
+            <p>Темы, которые зацепят вашу аудиторию</p>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="card-body">
+          <div class="card-body-inner">
+            <ol>
+              <li>
+                <strong>«3 ошибки, которые я совершил в начале пути»</strong>
+                <span class="hint">Формат: личная история + выводы. Люди любят честность — покажите, что эксперт тоже учился на ошибках.</span>
+              </li>
+              <li>
+                <strong>«Разбор: почему 90% людей не добиваются результата»</strong>
+                <span class="hint">Формат: карусель или длинный пост. Назовите 3–5 типичных заблуждений и дайте правильную альтернативу.</span>
+              </li>
+              <li>
+                <strong>«До / после: реальный кейс клиента за 30 дней»</strong>
+                <span class="hint">Формат: фото + цифры + короткий комментарий. Конкретика убеждает лучше общих советов.</span>
+              </li>
+              <li>
+                <strong>«5 инструментов, без которых я не работаю»</strong>
+                <span class="hint">Формат: список с кратким описанием каждого. Полезный контент хорошо сохраняют и пересылают.</span>
+              </li>
+              <li>
+                <strong>«Ответ на самый частый вопрос подписчиков»</strong>
+                <span class="hint">Формат: вопрос в заголовке, развёрнутый ответ в тексте. Показывает, что вы слышите аудиторию.</span>
+              </li>
+            </ol>
+          </div>
         </div>
       </li>
 
-      <li class="card">
-        <div class="card-icon">📱</div>
-        <div class="card-content">
-          <h2>3 сторис на сегодня</h2>
-          <p>Быстрые форматы для ежедневного общения</p>
+      <li class="card-item">
+        <button class="card" type="button" aria-expanded="false">
+          <div class="card-icon">📱</div>
+          <div class="card-content">
+            <h2>3 сторис на сегодня</h2>
+            <p>Быстрые форматы для ежедневного общения</p>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="card-body">
+          <div class="card-body-inner">
+            <ul>
+              <li>
+                <strong>Утро — «Один совет на сегодня»</strong>
+                <span class="hint">Снимите себя или текст на фоне. Короткая практическая мысль: «Сегодня попробуйте…». Добавьте стикер «Сохрани».</span>
+              </li>
+              <li>
+                <strong>День — опрос «Что вам сложнее всего?»</strong>
+                <span class="hint">2–3 варианта ответа по вашей теме. Результаты используйте вечером для второго касания с аудиторией.</span>
+              </li>
+              <li>
+                <strong>Вечер — закулисье</strong>
+                <span class="hint">15-секундное видео: рабочий стол, процесс, чашка кофе. Подпись: «Так прошёл мой день. А у вас?» — и стикер с вопросом.</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </li>
 
-      <li class="card">
-        <div class="card-icon">📅</div>
-        <div class="card-content">
-          <h2>Контент-план на неделю</h2>
-          <p>Расписание публикаций на 7 дней</p>
+      <li class="card-item">
+        <button class="card" type="button" aria-expanded="false">
+          <div class="card-icon">📅</div>
+          <div class="card-content">
+            <h2>Контент-план на неделю</h2>
+            <p>Расписание публикаций на 7 дней</p>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="card-body">
+          <div class="card-body-inner">
+            <table class="week-table">
+              <thead>
+                <tr>
+                  <th>День</th>
+                  <th>Формат</th>
+                  <th>Тема</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Пн</td>
+                  <td><span class="tag post">Пост</span></td>
+                  <td>Мотивация: «С чего начать, если всё кажется сложным»</td>
+                </tr>
+                <tr>
+                  <td>Вт</td>
+                  <td><span class="tag story">Сторис</span></td>
+                  <td>Опрос + ответы на вопросы подписчиков</td>
+                </tr>
+                <tr>
+                  <td>Ср</td>
+                  <td><span class="tag reels">Reels</span></td>
+                  <td>«3 мифа в моей нише — разоблачаем за 30 секунд»</td>
+                </tr>
+                <tr>
+                  <td>Чт</td>
+                  <td><span class="tag post">Пост</span></td>
+                  <td>Кейс клиента: проблема → решение → результат</td>
+                </tr>
+                <tr>
+                  <td>Пт</td>
+                  <td><span class="tag story">Сторис</span></td>
+                  <td>Закулисье рабочей недели, благодарность подписчикам</td>
+                </tr>
+                <tr>
+                  <td>Сб</td>
+                  <td><span class="tag post">Пост</span></td>
+                  <td>Подборка: 5 полезных ресурсов / книг / инструментов</td>
+                </tr>
+                <tr>
+                  <td>Вс</td>
+                  <td><span class="tag reels">Reels</span></td>
+                  <td>Личное: хобби, выходной, «я тоже отдыхаю»</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </li>
     </ul>
 
     <footer>© 2026 · Идеи постов от эксперта</footer>
   </div>
+
+  <script>
+    document.querySelectorAll('.card-item').forEach(function (item) {
+      var button = item.querySelector('.card');
+
+      button.addEventListener('click', function () {
+        var isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.card-item.open').forEach(function (openItem) {
+          openItem.classList.remove('open');
+          openItem.querySelector('.card').setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
