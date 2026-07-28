@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Идеи постов от эксперта</title>
+  <title>Помощник для создания контента</title>
   <style>
     * {
       margin: 0;
@@ -41,6 +41,30 @@
       margin-top: 0.5rem;
       color: rgba(255, 255, 255, 0.85);
       font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 1.25rem;
+      padding: 0.65rem 1.25rem;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .audience-text {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .card-list {
@@ -223,6 +247,28 @@
       margin-top: 2.5rem;
       color: rgba(255, 255, 255, 0.6);
       font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .footer-author {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.75rem;
+    }
+
+    .footer-brand {
+      display: block;
+      margin: 0.35rem 0;
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .footer-tagline {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.8rem;
+      line-height: 1.5;
     }
 
     @media (max-width: 480px) {
@@ -239,8 +285,10 @@
 <body>
   <div class="container">
     <header>
-      <h1>Идеи постов от эксперта</h1>
-      <p class="subtitle">Готовые идеи для вашего контента</p>
+      <h1>Помощник для создания контента</h1>
+      <p class="subtitle">Используйте готовые идеи и адаптируйте их под свою тему.</p>
+      <p class="badge">🟢 Бесплатно • Без регистрации • Готово к использованию</p>
+      <p class="audience-text">Подходит экспертам, предпринимателям, специалистам и всем, кто ведёт социальные сети.</p>
     </header>
 
     <ul class="card-list">
@@ -248,8 +296,8 @@
         <button class="card" type="button" aria-expanded="false">
           <div class="card-icon">✍️</div>
           <div class="card-content">
-            <h2>Пять идей для вас увлекающих постов</h2>
-            <p>Темы, которые зацепят вашу аудиторию</p>
+            <h2>5 идей для увлекательных постов</h2>
+            <p>Темы, которые помогут привлечь внимание вашей аудитории.</p>
           </div>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 9l6 6 6-6"/>
@@ -378,7 +426,11 @@
       </li>
     </ul>
 
-    <footer>© 2026 · Идеи постов от эксперта</footer>
+    <footer>
+      <p class="footer-author">Создано Ириной Андреевой</p>
+      <p class="footer-brand">Со_мной_легко</p>
+      <p class="footer-tagline">Помогаю использовать искусственный интеллект<br>в работе и жизни.</p>
+    </footer>
   </div>
 
   <script>
